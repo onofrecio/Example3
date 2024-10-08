@@ -93,18 +93,23 @@
 
   <script src="index.js"></script>
 
+<!-- Audio para el tour -->
+<audio id="backgroundAudio" src="audio/town-10169.mp3" loop></audio>
+
 <script>
   // Control de audio
   var audio = document.getElementById("backgroundAudio");
 
-  // Inicia o pausa el audio según la escena
-  document.querySelectorAll('.scene').forEach(scene => {
-    scene.addEventListener('click', function() {
-      audio.play(); // Asegura que el audio suene al cambiar de escena
-    });
-  });
-</script>
+  // Función para reproducir el audio al primer clic
+  function enableAudio() {
+    audio.play();
+    document.removeEventListener('click', enableAudio); // Elimina el evento para no volver a activarlo
+  }
 
+  // Espera a que el usuario haga clic para reproducir el audio
+  document.addEventListener('click', enableAudio);
+
+</script>
 </body>
 
 </html>
