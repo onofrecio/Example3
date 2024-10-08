@@ -87,5 +87,17 @@
 <script src="data.js"></script>
 <script src="index.js"></script>
 
+<script>
+  // Control de audio
+  var audio = document.getElementById("backgroundAudio");
+
+  // Inicia o pausa el audio según la escena
+  document.querySelectorAll('.scene').forEach(scene => {
+    scene.addEventListener('click', function() {
+      audio.play(); // Asegura que el audio suene al cambiar de escena
+    });
+  });
+</script>
+
 </body>
 </html>
