@@ -95,26 +95,36 @@
 
 <!-- Botones de control de audio -->
 <div id="audioControls" style="position: fixed; bottom: 20px; right: 20px;">
-  <button onclick="playAudio()">Play</button>
-  <button onclick="pauseAudio()">Pause</button>
+  <button onclick="playAudio()" style="font-size: 20px; padding: 10px; margin-right: 5px;">▶️ Play</button>
+  <button onclick="pauseAudio()" style="font-size: 20px; padding: 10px;">⏸️ Pause</button>
 </div>
 
 <!-- Audio para el tour -->
 <audio id="backgroundAudio" src="audio/town-10169.mp3" loop></audio>
 
 <script>
-  // Control de audio
   var audio = document.getElementById("backgroundAudio");
 
-  // Función para reproducir el audio al primer clic
-  function enableAudio() {
-    audio.play();
-    document.removeEventListener('click', enableAudio); // Elimina el evento para no volver a activarlo
+  // Asegura que el audio solo se inicie al hacer clic en Play
+  function playAudio() {
+    if (audio.paused) {
+      audio.play();
+    }
   }
 
-  // Espera a que el usuario haga clic para reproducir el audio
-  document.addEventListener('click', enableAudio);
+  // Pausa el audio
+  function pauseAudio() {
+    if (!audio.paused) {
+      audio.pause();
+    }
+  }
 
+  // Activa el audio solo si se hace clic en el documento por primera vez
+  document.addEventListener('click', function enableAudio() {
+    audio.play();
+    document.removeEventListener('click', enableAudio);
+  });
+</script>
 </script>
 </body>
 
