@@ -39,6 +39,10 @@
     <img class="icon on" src="img/windowed.png">
   </a>
 
+  <a href="javascript:void(0)" id="vrToggle">
+    <img class="icon" src="img/vr.svg" alt="VR Mode">
+  </a>
+
   <a href="javascript:void(0)" id="sceneListToggle">
     <img class="icon off" src="img/menu.svg">
     <img class="icon on" src="img/close.svg">
@@ -92,40 +96,6 @@
   </script>
 
   <script src="index.js"></script>
-
-<!-- Botones de control de audio -->
-<div id="audioControls" style="position: fixed; bottom: 20px; right: 20px;">
-  <button onclick="playAudio()" style="font-size: 20px; padding: 10px; margin-right: 5px;">▶️ Play</button>
-  <button onclick="pauseAudio()" style="font-size: 20px; padding: 10px;">⏸️ Pause</button>
-</div>
-
-<!-- Audio para el tour -->
-<audio id="backgroundAudio" src="audio/town-10169.mp3" loop></audio>
-
-<script>
-  var audio = document.getElementById("backgroundAudio");
-
-  // Asegura que el audio solo se inicie al hacer clic en Play
-  function playAudio() {
-    if (audio.paused) {
-      audio.play();
-    }
-  }
-
-  // Pausa el audio
-  function pauseAudio() {
-    if (!audio.paused) {
-      audio.pause();
-    }
-  }
-
-  // Activa el audio solo si se hace clic en el documento por primera vez
-  document.addEventListener('click', function enableAudio() {
-    audio.play();
-    document.removeEventListener('click', enableAudio);
-  });
-</script>
-</script>
 </body>
 
 </html>
