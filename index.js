@@ -392,76 +392,36 @@
   // Agregar soporte para VR
   var vrToggleElement = document.querySelector('#vrToggle');
 
-  async function toggleVR() {
-    // Comprobar si WebXR está disponible
-    if (!navigator.xr) {
-      alert("Lo siento, tu navegador no soporta realidad virtual (WebXR no está disponible)");
+  function toggleVR() {
+    if (!viewer) {
+      console.error('Viewer not initialized');
       return;
     }
 
-    try {
-      // Comprobar si el dispositivo soporta VR
-      const supported = await navigator.xr.isSessionSupported('immersive-vr');
-      if (!supported) {
-        alert("Lo siento, tu dispositivo no soporta realidad virtual o no hay un visor VR conectado");
-        return;
-      }
-
-      // Si ya hay una sesión activa, terminarla
-      if (window.vrSession) {
-        window.vrSession.end();
-        window.vrSession = null;
-        vrToggleElement.classList.remove('enabled');
-        return;
-      }
-
-      // Iniciar sesión VR
-      const session = await navigator.xr.requestSession('immersive-vr', {
-        optionalFeatures: ['local-floor', 'bounded-floor']
-      });
+    if (vrToggleElement.classList.contains('enabled')) {
+      // Desactivar modo VR
+      var view = new Marzipano.RectilinearView(
+        { yaw: 0, pitch: 0, fov: Math.PI/2 },
+        { fov: Math.PI/2 }
+      );
+      viewer.setView(view);
+      vrToggleElement.classList.remove('enabled');
+    } else {
+      // Activar modo VR (vista estereoscópica)
+      var view = new Marzipano.RectilinearView(
+        { yaw: 0, pitch: 0, fov: Math.PI/2 },
+        { fov: Math.PI/1.5 }
+      );
+      viewer.setView(view);
       
-      window.vrSession = session;
+      // Dividir pantalla para vista estereoscópica
+      document.body.classList.add('vr-mode');
       vrToggleElement.classList.add('enabled');
-
-      session.addEventListener('end', () => {
-        window.vrSession = null;
-        vrToggleElement.classList.remove('enabled');
-      });
-
-      // Configurar el renderizado VR (esto dependerá de Marzipano)
-      const gl = viewer.renderer().gl();
-      const webGLLayer = new XRWebGLLayer(session, gl);
-      session.updateRenderState({ baseLayer: webGLLayer });
-
-      // Loop de renderizado
-      const frame = await session.requestAnimationFrame((time, frame) => {
-        // Aquí iría la lógica de renderizado VR
-        session.requestAnimationFrame(onXRFrame);
-      });
-
-    } catch (err) {
-      console.error('Error al iniciar VR: ', err);
-      alert("Error al iniciar el modo VR. Asegúrate de tener un visor VR conectado.");
     }
   }
 
-  // Comprobar si el dispositivo soporta VR
-  if (navigator.xr) {
-    navigator.xr.isSessionSupported('immersive-vr')
-      .then(supported => {
-        if (supported) {
-          vrToggleElement.style.display = 'block';
-        } else {
-          vrToggleElement.style.display = 'none';
-        }
-      })
-      .catch(err => {
-        console.error('Error al comprobar soporte VR: ', err);
-        vrToggleElement.style.display = 'none';
-      });
-  } else {
-    vrToggleElement.style.display = 'none';
-  }
+  // Mostrar siempre el botón VR
+  vrToggleElement.style.display = 'block';
 
   // Agregar el evento click al botón VR
   vrToggleElement.addEventListener('click', toggleVR);

@@ -871,3 +871,53 @@ body.view-control-buttons .viewControlButton {
 #vrToggle:hover {
   background-color: rgba(103,115,131,1);
 }
+
+/* Estilos para el modo VR */
+body.vr-mode #pano {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200vw;
+  height: 100vh;
+  transform-origin: 0 0;
+  transform: scale(0.5, 1);
+}
+
+body.vr-mode #pano:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+#vrToggle {
+  display: block !important;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgb(103,115,131);
+  background-color: rgba(103,115,131,0.8);
+  border-radius: 4px;
+  z-index: 2000;
+  cursor: pointer;
+}
+
+#vrToggle.enabled {
+  background-color: rgba(103,115,131,1);
+}
+
+#vrToggle .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  filter: brightness(0) invert(1);
+}
